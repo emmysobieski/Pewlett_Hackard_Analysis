@@ -57,3 +57,56 @@ CREATE TABLE "titles" (
         "emp_no","title","from_date"
      )
 );
+
+-- DROP TABLE "employees";
+-- DROP TABLE "titles";
+-- DROP TABLE "departments";
+-- DROP TABLE "salaries";
+-- DROP TABLE "dept_manager";
+-- DROP TABLE "dept_emp";
+
+-- Confirm number of rows in table called departments
+SELECT * FROM departments;
+
+--Exploring employees born between Jan 1, 1952 and Dec 31, 1955
+SELECT COUNT(*)
+FROM employees
+WHERE birth_date BETWEEN '1952-01-01' AND '1955-12-31';
+
+SELECT first_name, last_name
+FROM employees
+WHERE birth_date BETWEEN '1952-01-01' AND '1952-12-31';
+
+SELECT first_name, last_name
+FROM employees
+WHERE birth_date BETWEEN '1953-01-01' AND '1953-12-31';
+
+SELECT first_name, last_name
+FROM employees
+WHERE birth_date BETWEEN '1954-01-01' AND '1954-12-31';
+
+SELECT first_name, last_name
+FROM employees
+WHERE birth_date BETWEEN '1955-01-01' AND '1955-12-31';
+
+-- Narrowing retirement eligibility to age and length of service
+-- Retirement eligibility
+SELECT first_name, last_name
+FROM employees
+WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
+AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
+
+-- Number of employees retiring
+SELECT COUNT(*)
+FROM employees
+WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
+AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
+
+DROP TABLE "retirement_info";
+
+--Create new table called retirement_info
+SELECT first_name, last_name
+INTO retirement_info
+FROM employees
+WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
+AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
