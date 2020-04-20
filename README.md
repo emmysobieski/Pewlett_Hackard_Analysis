@@ -62,10 +62,12 @@ I recommend that management:
 
 **Here are the three csv tables:
 
-Retiring employees sorted by title:
-![]()
+Retiring employees sorted by their title:
+![](https://github.com/emmysobieski/Pewlett_Hackard_Analysis/blob/master/Data/Partitioned_retiring_emp_by_title.csv)
+
 Number of employees retiring in each title:
 ![]()
+
 Number of employees born in 1965 eligible to mentor:
 ![]()
 
