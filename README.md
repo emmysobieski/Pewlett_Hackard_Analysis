@@ -72,11 +72,14 @@ Number of employees retiring in each title:
 ![employees_per_title_retiring](https://github.com/emmysobieski/Pewlett_Hackard_Analysis/blob/master/Data/employees_per_title_retiring.csv)
 
 Number of employees born in 1965 eligible to mentor:
-![]()
 
-Here is a copy of the ERD I created when mapping out the database to link in retirement_info.
+![Partitioned_Mentor_Eligibility](https://github.com/emmysobieski/Pewlett_Hackard_Analysis/blob/master/Data/Partitioned_Mentor_Eligibility.csv)
+
+Here is a copy of the ERD I created when mapping out the database to link in retirement_info:
+
 
 ![](https://github.com/emmysobieski/Pewlett_Hackard_Analysis/blob/master/ERD_Challenge.png) 
+
 
 
 -----------------------------------------------------------------------------------------------------
