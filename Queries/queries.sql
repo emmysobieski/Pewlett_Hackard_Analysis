@@ -297,7 +297,7 @@ FROM partitioned_retiring_emp_by_title
 GROUP BY title;
 
 -- Create new table showing number of employees within each title who are retiring
-SELECT COUNT(pret.title)
+SELECT COUNT(pret.title), title
 INTO employees_per_title_retiring
 FROM partitioned_retiring_emp_by_title AS pret
 GROUP BY pret.title
