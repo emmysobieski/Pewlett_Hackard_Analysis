@@ -11,27 +11,50 @@ Using the PH employee database I have previously created, create additional tabl
 
 First, I set about determining the titles of employees who are expected to retire, using the previously-created table retirement_info (the flow of this process is in the ERD below).  Considering these are the most senior people in the organization, it is likely they have had multiple titles and may be counted more than once.  So, I checked, using SELECT * FROM retiring_emp_by_title;, and there were duplicates, nearly double, at over 65,000 entries vs 41,380 unique retirees.  Therefore, I used partition to get only the unique retirees, and then I re-ordered the table called partitioned_retiring_emp_by_title, by title, so you can look down the table by titles.  You can see the join code at the end of this README.  Here, I show the partition code, as a sample:
 
+
 -- Partition the data to show only most recent title per employee, which will remove duplicates to create final table
+
+
 SELECT tmp.emp_no,
+
 tmp.first_name,
+
 tmp.last_name,
+
 tmp.title,
+
 tmp.from_date,
+
 tmp.salary
+
 INTO partitioned_retiring_emp_by_title
+
 FROM 
+
  (SELECT emp_no,
+ 
 first_name,
+
 last_name,
+
   title,
+  
 from_date,
+
 salary, 
+
   ROW_NUMBER() OVER
+  
  (PARTITION BY (emp_no)
+ 
  ORDER BY to_date DESC) rn
+ 
  FROM retiring_emp_by_title
+ 
  ) tmp WHERE rn = 1
+ 
 ORDER BY emp_no;
+
 
 Then I created a table showing by title, the number of employees retiring.  This is interesting because it shows whether there may be a significant strain in a certain type of employee, either by level or function, so that management can make appropriate plans.  This leads us to the third table, which is created because if management sees areas where holes may be created by too many people in one title retiring, we are then anticipating that they will want to know who could mentor the next level of employee to fill those holes.
 
