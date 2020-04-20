@@ -58,13 +58,6 @@ CREATE TABLE "titles" (
      )
 );
 
--- DROP TABLE "employees";
--- DROP TABLE "titles";
--- DROP TABLE "departments";
--- DROP TABLE "salaries";
--- DROP TABLE "dept_manager";
--- DROP TABLE "dept_emp";
-
 -- Confirm number of rows in table called departments
 SELECT * FROM departments;
 
@@ -101,17 +94,6 @@ SELECT COUNT(*)
 FROM employees
 WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
 AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
-
-DROP TABLE "retirement_info";
-
---Create new table called retirement_info
-SELECT first_name, last_name
-INTO retirement_info
-FROM employees
-WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
-AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
-
-DROP TABLE "retirement_info";
 
 -- Create new table for retiring employees
 SELECT emp_no, first_name, last_name
@@ -258,3 +240,109 @@ SELECT di.emp_no,
 INTO retirement_sales_devt
 FROM dept_info AS di
 WHERE di.dept_name IN ('Development', 'Sales');
+
+
+
+------------ CHALLENGE START---------------
+---Determine the titles of employees who are expected to retire, 
+-- using the previously-created table retirement_info
+SELECT ri.emp_no,
+ri.first_name,
+ri.last_name,
+ti.title,
+ti.to_date,
+ti.from_date,
+s.salary
+INTO retiring_emp_by_title
+FROM retirement_info AS ri
+INNER JOIN salaries AS s
+ON (ri.emp_no = s.emp_no)
+INNER JOIN titles AS ti
+ON (ri.emp_no = ti.emp_no);
+
+-- check to see data from table.  There are duplicates
+SELECT * FROM retiring_emp_by_title;
+
+-- Partition the data to show only most recent title per employee,
+-- which will remove duplicates to create final table
+SELECT tmp.emp_no,
+tmp.first_name,
+tmp.last_name,
+tmp.title,
+tmp.from_date,
+tmp.salary
+INTO partitioned_retiring_emp_by_title
+FROM 
+ (SELECT emp_no,
+first_name,
+last_name,
+  title,
+from_date,
+salary, 
+  ROW_NUMBER() OVER
+ (PARTITION BY (emp_no)
+ ORDER BY to_date DESC) rn
+ FROM retiring_emp_by_title
+ ) tmp WHERE rn = 1
+ORDER BY emp_no;
+
+--Reordered the table of retiring employees by title
+SELECT * FROM partitioned_retiring_emp_by_title
+ORDER BY title;
+
+------Show number of employees within each title who are retiring
+SELECT COUNT(*) AS employees_per_title_retiring,
+title
+FROM partitioned_retiring_emp_by_title
+GROUP BY title;
+
+-- Create new table showing number of employees within each title who are retiring
+SELECT COUNT(pret.title)
+INTO employees_per_title_retiring
+FROM partitioned_retiring_emp_by_title AS pret
+GROUP BY pret.title
+ORDER BY pret.title;
+
+--- List of current employees born in 1965
+-- Join emp_info with salaries data
+SELECT e.emp_no,
+	e.first_name,
+	e.last_name,
+	ti.title,
+	de.from_date,
+	de.to_date
+INTO Mentor_Eligibility
+FROM employees AS e
+INNER JOIN titles AS ti
+ON (e.emp_no = ti.emp_no)
+INNER JOIN dept_emp AS de
+ON (e.emp_no = de.emp_no)
+WHERE (e.birth_date BETWEEN '1965-01-01' AND '1965-12-31')
+	 AND (de.to_date = '9999-01-01');
+
+-- Determine if there are duplicates in Mentor Eligibility table, 
+-- to see if a partition is necessary, by comparing unique records with 
+-- the number of records in Mentor_Eligibility
+SELECT COUNT (DISTINCT (emp_no)) FROM Mentor_Eligibility;
+
+-- Partition the data to show only most recent title per employee mentor
+SELECT tmp.emp_no,
+	tmp.first_name,
+	tmp.last_name,
+	tmp.title,
+	tmp.from_date,
+	tmp.to_date
+INTO Partitioned_Mentor_Eligibility
+FROM 
+ (SELECT emp_no,
+first_name,
+last_name,
+  title,
+from_date,
+to_date, 
+  ROW_NUMBER() OVER
+ (PARTITION BY (emp_no)
+ ORDER BY to_date DESC) rn
+ FROM Mentor_Eligibility
+ ) tmp WHERE rn = 1
+ORDER BY emp_no;
