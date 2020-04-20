@@ -60,16 +60,18 @@ I recommend that management:
 (4)	For the mentoring portion, I recommend that management widen the age group of mentors beyond just one year, and also do a sort based on seniority and title, especially now we can see that senior engineers is an area of need.  Some people who are younger may be more senior and vice versa.
 (5)	Finally, I recommend doing a more granular search for mentors based on the projects they are working on, so that the projects who are losing the most employees to retirement can be matched with mentors in either adjacent projects or their work within their own project can be pared back if they are expected to be in a project where a number of senior engineers are retiring.
 
-Here are the three csv tables:
+**Here are the three csv tables:
+
 Retiring employees sorted by title:
-
+![]()
 Number of employees retiring in each title:
-
+![]()
 Number of employees born in 1965 eligible to mentor:
+![]()
 
 Here is a copy of the ERD I created when mapping out the database to link in retirement_info.
 
-![Image description](link-to-image) 
+![](https://github.com/emmysobieski/Pewlett_Hackard_Analysis/blob/master/ERD_Challenge.png) 
 
 
 -----------------------------------------------------------------------------------------------------
