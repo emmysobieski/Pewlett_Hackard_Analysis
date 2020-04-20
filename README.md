@@ -63,7 +63,8 @@ I recommend that management:
 **Here are the three csv tables:
 
 Retiring employees sorted by their title:
-![](https://github.com/emmysobieski/Pewlett_Hackard_Analysis/blob/master/Data/Partitioned_retiring_emp_by_title.csv)
+![Partitioned_retiring_emp_by_title](https://github.com/emmysobieski/Pewlett_Hackard_Analysis/blob/master/Data/Partitioned_retiring_emp_by_title.csv)
+
 
 Number of employees retiring in each title:
 ![]()
